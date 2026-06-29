@@ -62,42 +62,28 @@ We demonstrated a massive **97.31x speedup** in hardware simulation over an equi
 
 ---
 
-## Project Demo
-
-- **Demo Video:** `[Insert Demo Video Link]`
-- **Presentation:** `[Insert Presentation Link]`
-- **Poster:** `[Insert Poster Link]`
-- **GitHub:** `[Insert GitHub Repository Link]`
-- **Screenshots:** `[See Screenshots Section]`
-
----
-
-## Architecture Diagram
+## Architecture Diagram (Verilog RTL)
 
 ```mermaid
 %%{init: {'theme': 'default', 'themeVariables': { 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#333333'}}}%%
 graph TD
-    subgraph AXI System Interconnect
-        M[DDR Memory / MIG] <--> |AXI4 Master| TOP[dvcon_top]
-        CPU[Host CPU / VEGA] <--> |AXI4 Slave| TOP
-    end
+    HOST[Host CPU / VEGA] -->|AXI4 Control| TOP[dvcon_top]
+    DDR[DDR Memory / MIG] <-->|AXI4 Data| TOP
 
-    subgraph dvcon_top
-        AM[axi4_master] --> |Pixel Stream| AT[Accelerator_Top]
-        AS[axi4_slave] --> |Control/Status| SEQ[sequencer]
-        SEQ --> |Read Commands| AM
-        SEQ --> |Start/Done| AS
-        AT --> |Result Data| SEQ
-    end
+    TOP --> SEQ[sequencer: Verilog FSM]
+    SEQ --> MAS[axi4_master: Verilog]
+    SEQ --> SLV[axi4_slave: Verilog]
 
-    subgraph Accelerator_Top
-        AT_IN[pixel_bus] --> LB[FPGA_BRAM_line_buffers]
-        LB --> WG[Window_Generator]
-        WG --> MAC[MAC_Convolution]
-        MAC --> RELU[ReLU Activation]
-        RELU --> MP[Max_Pooling]
-        MP --> OB[Output_BRAM]
-    end
+    MAS -->|Pixel Stream| AT[Accelerator_Top: Verilog]
+    
+    AT --> BRAM[FPGA_BRAM_line_buffers]
+    BRAM --> WG[Window_Generator]
+    WG --> MAC[MAC_Convolution]
+    MAC --> RELU[ReLU Activation]
+    RELU --> MP[Max_Pooling]
+    MP --> OB[Output_BRAM]
+    
+    OB -->|Result| SEQ
 ```
 
 ---
@@ -250,12 +236,6 @@ Simulation finished perfectly.
 
 ---
 
-## APIs
-
-*(N/A - This project focuses on bare-metal hardware integration and RTL simulation rather than web APIs.)*
-
----
-
 ## Machine Learning Pipeline
 
 - **Dataset:** Raw RGB image converted to binary matrix (`image_rgb.bin`).
@@ -289,16 +269,6 @@ Simulation finished perfectly.
 | **Latency** | 138,183.6 ns | 1,420 ns | **~97.31x Faster** |
 | **Throughput** | Low | 1 Pixel / Clock (Post-latency) | Maximum |
 | **Pipeline Bubbles**| N/A | 0 | Ideal |
-
----
-
-## Screenshots
-
-> **Note:** Placeholders for adding visual assets.
-
-- **Architecture:** `[Insert Block Diagram]`
-- **Simulation Waveforms:** `[Insert Vivado Waveform Screenshot]`
-- **Output Graphs:** `[Insert Comparison Graph]`
 
 ---
 
