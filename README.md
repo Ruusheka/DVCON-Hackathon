@@ -75,6 +75,7 @@ We demonstrated a massive **97.31x speedup** in hardware simulation over an equi
 ## Architecture Diagram
 
 ```mermaid
+%%{init: {'theme': 'default', 'themeVariables': { 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#333333'}}}%%
 graph TD
     subgraph AXI System Interconnect
         M[DDR Memory / MIG] <--> |AXI4 Master| TOP[dvcon_top]
@@ -104,7 +105,8 @@ graph TD
 ## Workflow Diagram
 
 ```mermaid
-flowchart LR
+%%{init: {'theme': 'default', 'themeVariables': { 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#333333'}}}%%
+flowchart TD
     A[Host configures Address] --> B[Host sets START bit]
     B --> C[Sequencer triggers AXI Master]
     C --> D[AXI Master burst reads DDR]
