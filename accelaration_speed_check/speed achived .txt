@@ -1,0 +1,6 @@
+Speed achieved result output from python file 
+
+Software time: 138183.6 ns
+Speedup vs FPGA (1420ns): 97.31x
+
+

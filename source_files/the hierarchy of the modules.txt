@@ -1,0 +1,27 @@
+the hierarchy of the modules
+
+top_module.v
+|
+|--- ax14_slave.v
+|
+|--- axi4_master.v
+|
+|--- sequencer.v
+|
+|---accelarator_top.v
+|    | 
+|    |---- FPGA_BRAM_line_buffers.v
+|    |
+|    |---- Window_Genearator.v
+|    |
+|    |---- MAC_Convolution.v
+|    | 
+|    |---- Relu.v
+|    |
+|    |---- Max_Pooling.v
+|    |
+|    |----Output_Bram.v
+|
+|
+|
+|----ddr_model.v
